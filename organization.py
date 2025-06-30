@@ -7,6 +7,8 @@ class organize_data:
 
     def load_file(self, filepath):
         ext = os.path.splitext(filepath)[1].lower()
+        print(f"[DEBUG] Filepath: {filepath}")
+        print(f"[DEBUG] Extracted extension: {ext}")
 
         if ext == ".csv":
             self.df = pd.read_csv(filepath)
@@ -15,6 +17,7 @@ class organize_data:
         elif ext == ".json":
             self.df = pd.read_json(filepath)
         else:
+            print("[DEBUG] Extension did not match supported types.")
             raise ValueError(f"Unsupported file type: {ext}")
 
         print(f"Loaded data with shape {self.df.shape}")
@@ -22,7 +25,7 @@ class organize_data:
 
     def clean_data(self):
         if self.df is None:
-            raise ValueError("No data loaded")
+            raise ValueError("No data loaded") 
         self.df.dropna(how="all", inplace=True)
         self.df.dropna(axis=1, how="all", inplace=True)
         self.df.reset_index(drop=True, inplace=True)

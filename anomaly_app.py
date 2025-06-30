@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import tempfile
+import shutil
+import os
 from anomaly_detector import AnomalyDetector
 from organization import organize_data
 import matplotlib.pyplot as plt
@@ -12,10 +14,11 @@ uploaded_file = st.file_uploader("Upload your CSV, Excel, or JSON file", type=["
 
 if uploaded_file:
     # Save the uploaded file temporarily
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        tmp_file.write(uploaded_file.read())
-        tmp_filepath = tmp_file.name
+    suffix = os.path.splitext(uploaded_file.name)[1]
 
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
+        tmp_file.write(uploaded_file.getbuffer())
+        tmp_filepath = tmp_file.name
     # Load and clean data using organize_data
     org = organize_data()
     org.load_file(tmp_filepath)

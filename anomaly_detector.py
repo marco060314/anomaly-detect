@@ -78,7 +78,7 @@ class AnomalyDetector:
 
     def run_auto(self):
         num_cols = self.numeric_data.shape[1]
-        ifr num_cols == 1:
+        if num_cols == 1:
             self.detect_statistical()
         elif 1 < num_cols < 15:
             self.detect_statistical()

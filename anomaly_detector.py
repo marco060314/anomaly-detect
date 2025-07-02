@@ -48,6 +48,7 @@ class AnomalyDetector:
 
     def detect_autoencoder(self):
         if not TENSORFLOW_AVAILABLE:
+            return
             raise RuntimeError("TensorFlow is not available in this environment.")
         # Normalize the data
         data_scaled = self.scaler.fit_transform(self.numeric_data)

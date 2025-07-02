@@ -61,10 +61,13 @@ if uploaded_file:
         st.success("✅ SVM detection complete.")
         st.dataframe(detector.results.head())
 
-    if st.button("Run Autoencoder (Deep Learning)"):
-        detector.detect_autoencoder()
-        st.success("✅ Autoencoder detection complete.")
-        st.dataframe(detector.results.head())
+    if TENSORFLOW_AVAILABLE:
+        if st.button("Run Autoencoder (Deep Learning)"):
+            detector.detect_autoencoder()
+            st.success("✅ Autoencoder detection complete.")
+            st.dataframe(detector.results.head())
+    else:
+        st.warning("⚠️ Autoencoder (TensorFlow) is not available in this environment.")
 
     if st.button("Show Combined Results"):
         results = detector.combine_results()

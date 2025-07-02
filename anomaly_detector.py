@@ -5,9 +5,14 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.svm import OneClassSVM
 from scipy.stats import zscore
 from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense
-from tensorflow.keras import regularizers
+try:
+    from tensorflow.keras.models import Model
+    from tensorflow.keras.layers import Input, Dense
+    from tensorflow.keras import regularizers
+    TENSORFLOW_AVAILABLE = True
+except Exception as e:
+    print("[WARNING] TensorFlow failed to load:", e)
+    TENSORFLOW_AVAILABLE = False
 
 class AnomalyDetector:
     def __init__(self, df: pd.DataFrame):
@@ -42,6 +47,8 @@ class AnomalyDetector:
         self.models_run.append("svm")
 
     def detect_autoencoder(self):
+        if not TENSORFLOW_AVAILABLE:
+            raise RuntimeError("TensorFlow is not available in this environment.")
         # Normalize the data
         data_scaled = self.scaler.fit_transform(self.numeric_data)
 

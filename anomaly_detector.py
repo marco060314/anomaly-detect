@@ -5,6 +5,7 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.svm import OneClassSVM
 from scipy.stats import zscore
 from sklearn.preprocessing import StandardScaler
+TENSORFLOW_AVAILABLE = True
 try:
     from tensorflow.keras.models import Model
     from tensorflow.keras.layers import Input, Dense
